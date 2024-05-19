@@ -18,47 +18,51 @@ class BookController extends Controller
         return view('books.create');
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $validatedData = $request->validate([
             'title' => 'required',
             'author' => 'required',
             'year' => 'required|numeric',
         ]);
-    
+
         $book = new Book();
         $book->title = $validatedData['title'];
         $book->author = $validatedData['author'];
         $book->year = $validatedData['year'];
         $book->save();
-    
+
         return redirect()->route('books.index');
     }
 
-    public function edit($id) {
+    public function edit($id)
+    {
         $book = Book::findOrFail($id);
         return view('books.edit', ['book' => $book]);
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $validatedData = $request->validate([
             'title' => 'required',
             'author' => 'required',
             'year' => 'required|numeric',
         ]);
-    
+
         $book = Book::findOrFail($id);
         $book->title = $validatedData['title'];
         $book->author = $validatedData['author'];
         $book->year = $validatedData['year'];
         $book->save();
-    
+
         return redirect()->route('books.index');
     }
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $book = Book::findOrFail($id);
         $book->delete();
-    
+
         return redirect()->route('books.index');
     }
 }

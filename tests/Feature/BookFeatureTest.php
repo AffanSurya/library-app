@@ -19,12 +19,14 @@ class BookFeatureTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_index_data() {
+    public function test_index_data()
+    {
         $response = $this->get('/books');
         $response->assertStatus(200);
     }
 
-    public function test_stores_data() {
+    public function test_stores_data()
+    {
         $book = Book::factory()->create();
         $response = $this->post('/books', $book->toArray());
         $response->assertStatus(302);
@@ -32,14 +34,16 @@ class BookFeatureTest extends TestCase
         $book->delete();
     }
 
-    public function test_edit_data() {
+    public function test_edit_data()
+    {
         $book = Book::factory()->create();
         $response = $this->get("/books/{$book->id}/edit");
         $response->assertStatus(200);
         $book->delete();
     }
 
-    public function test_update_data() {
+    public function test_update_data()
+    {
         $book = Book::factory()->create();
 
         $updatedBookData = [
@@ -54,7 +58,8 @@ class BookFeatureTest extends TestCase
         $book->delete();
     }
 
-    public function test_destroy_data() {
+    public function test_destroy_data()
+    {
         $book = Book::factory()->create();
         $response = $this->delete("/books/{$book->id}");
         $response->assertStatus(302);

@@ -53,6 +53,32 @@ Route::prefix('admin')->group(function () {
     });
 });
 
+// Latihan 1
+Route::prefix('latihan1')->group(function () {
+    Route::get('/book', function () {
+        return view('latihan_1.book', [
+            'books' => Book::all()
+        ]);
+    });
+
+    Route::get('/borrower', function () {
+        $borrowers = Borrowing::all();
+        $uniqueBorrowers = $borrowers->unique(function ($item) {
+            return $item->user->name;
+        });
+        return view('latihan_1.borrower', [
+            'borrowers' => $uniqueBorrowers
+        ]);
+    });
+
+    Route::get('/borrowing', function () {
+        $borrowings = Borrowing::all();
+        return view('latihan_1.borrowing', [
+            'borrowings' => $borrowings
+        ]);
+    });
+});
+
 Route::get('/book-simple', function () {
     return view('book_simple', ['title' => "Bumi Manusia"]);
 });
