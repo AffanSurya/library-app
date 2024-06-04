@@ -102,6 +102,40 @@ Route::put('/books/{id}', [BookController::class, 'update'])->name('books.update
 // route untuk menghapus data buku
 Route::delete('/books/{id}', [BookController::class, 'destroy'])->name('books.destroy');
 
+// Latihan 2
+Route::prefix('latihan2')->group(function () {
+    Route::get('/borrower', function () {
+        $borrowers = Borrowing::all();
+        $uniqueBorrowers = $borrowers->unique(function ($item) {
+            return $item->user->name;
+        });
+        return view('latihan_2.borrower', [
+            'borrowers' => $uniqueBorrowers
+        ]);
+    })->name('borrower2.index');
+
+    // Borrowing
+    Route::get('/borrowing', function () {
+        $borrowings = Borrowing::all();
+        return view('latihan_2.borrowing.index', [
+            'borrowings' => $borrowings
+        ]);
+    })->name('borrowing2.index');
+
+    Route::get('borrowing/{id}/edit', function ($id) {
+        $borrowing = Borrowing::findOrFail($id);
+        return view('latihan_2.edit', [
+            'borrowing' => $borrowing
+        ]);
+    })->name('borrowing2.edit');
+
+    Route::delete('borrowing/{id}', function ($id) {
+        $borrowing = Borrowing::findOrFail($id);
+        $borrowing->delete();
+        return redirect()->route('borrowing2.index');
+    })->name('borrowing2.destroy');
+});
+
 Route::get('/user-profile/{user_id}', function (string $id) {
     $user = User::find($id);
     echo $user->name;
